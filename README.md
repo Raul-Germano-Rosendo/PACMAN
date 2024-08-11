@@ -13,6 +13,6 @@
   <blockquote>
     <p style="text-align: justify; margin: 0; padding: 10px; background-color: #333; color: #fff; border-radius: 8px; border: 1px solid #444;">
       <h1><strong> Descrição </strong></h1><br>
-      Este é um projeto para recriar o clássico jogo Pac-Man usando Python e a biblioteca Pygame, puramente visando o treino da habilidade de programação e para fins de estudo. Aqui disponibilizarei links para todas as ferramentas e artifícios que estarei utilizando, juntamente a playlists
+      Este é um projeto para recriar o clássico jogo Pac-Man usando a linguagem Python e a biblioteca Pygame, puramente visando o treino da habilidade de programação e para fins de estudo. Aqui disponibilizarei links para todas as ferramentas e artifícios que estarei utilizando, juntamente a playlist das Músicas e Bebidas que sugiro em não somente esta jornada de criação, mas a qualquer experiência mão na massa
     </p>
   </blockquote>
