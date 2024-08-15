@@ -215,3 +215,5 @@ def jogo():
         clock.tick(60)  # Define o frame rate para 60 FPS
 
 jogo()
+
+
