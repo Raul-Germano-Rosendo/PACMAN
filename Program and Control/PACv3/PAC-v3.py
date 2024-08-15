@@ -3,9 +3,13 @@ import sys
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
+import os
 
 # Inicializa o Pygame
 pygame.init()
+
+# Caminho da pasta de imagens
+pasta_sprites = os.path.join(os.path.dirname(__file__), 'Sprites')
 
 def carregar_gif(nome_arquivo):
     gif = Image.open(nome_arquivo)
@@ -31,9 +35,12 @@ def mostrar_mensagem():
     canvas = tk.Canvas(root, width=498, height=280)
     canvas.pack(fill=tk.BOTH, expand=True)
 
+    # Caminho do GIF
+    caminho_gif = os.path.join(pasta_sprites, 'pacman_background.gif')
+
     # Carrega e exibe o GIF animado
     try:
-        frames = carregar_gif('pacman_background.gif')  # Certifique-se de ter um GIF animado
+        frames = carregar_gif(caminho_gif)  # Certifique-se de ter um GIF animado
         imagem_gif = canvas.create_image(0, 0, anchor=tk.NW, image=frames[0])
         
         def atualizar_frame():
@@ -84,20 +91,25 @@ def jogo():
     pygame.display.set_caption('Pac-Man em Python')
 
     # Carrega as imagens e redimensiona para o tamanho da célula
-    pacman = pygame.image.load('pacman.png')
+    caminho_pacman = os.path.join(pasta_sprites, 'pacman.png')
+    pacman = pygame.image.load(caminho_pacman)
     pacman = pygame.transform.scale(pacman, (tamanho_celula, tamanho_celula))
 
     # Carregando diferentes sprites de fantasmas
-    fantasma_azul = pygame.image.load('fantasma_azul.png')
+    caminho_fantasma_azul = os.path.join(pasta_sprites, 'fantasma_azul.png')
+    fantasma_azul = pygame.image.load(caminho_fantasma_azul)
     fantasma_azul = pygame.transform.scale(fantasma_azul, (tamanho_celula, tamanho_celula))
 
-    fantasma_vermelho = pygame.image.load('fantasma_vermelho.png')
+    caminho_fantasma_vermelho = os.path.join(pasta_sprites, 'fantasma_vermelho.png')
+    fantasma_vermelho = pygame.image.load(caminho_fantasma_vermelho)
     fantasma_vermelho = pygame.transform.scale(fantasma_vermelho, (tamanho_celula, tamanho_celula))
 
-    fantasma_rosa = pygame.image.load('fantasma_rosa.png')
+    caminho_fantasma_rosa = os.path.join(pasta_sprites, 'fantasma_rosa.png')
+    fantasma_rosa = pygame.image.load(caminho_fantasma_rosa)
     fantasma_rosa = pygame.transform.scale(fantasma_rosa, (tamanho_celula, tamanho_celula))
 
-    parede = pygame.image.load('parede.png')
+    caminho_parede = os.path.join(pasta_sprites, 'parede.png')
+    parede = pygame.image.load(caminho_parede)
     parede = pygame.transform.scale(parede, (tamanho_celula, tamanho_celula))
 
     # Define a matriz do labirinto
@@ -133,7 +145,7 @@ def jogo():
 
     # Configura o tempo para a movimentação
     clock = pygame.time.Clock()
-    tickrate_ms = 500  # Atualiza a cada 500 milissegundos
+    tickrate_ms = 650  # Atualiza a cada 500 milissegundos
     ultima_movimentacao = pygame.time.get_ticks()  # Tempo da última movimentação
 
     def desenha_labirinto():
@@ -185,7 +197,7 @@ def jogo():
                 if event.key in [pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN]:
                     pacman_direcao = event.key
 
-        # Atualiza a posição do Pac-Man a cada 500 milissegundos
+        # Atualiza a posição do Pac-Man a cada 650 milissegundos
         tempo_atual = pygame.time.get_ticks()
         if tempo_atual - ultima_movimentacao >= tickrate_ms:
             atualiza_posicao()
