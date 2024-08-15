@@ -23,10 +23,10 @@ def carregar_gif(nome_arquivo):
         pass
     return frames
 
-def mostrar_mensagem():
+def mostrar_popup(titulo, mensagem, gif_nome, botao1_texto, botao2_texto):
     # Cria uma janela tkinter oculta
     root = tk.Tk()
-    root.title("Pac-Man")
+    root.title(titulo)
     
     # Define o tamanho da janela
     root.geometry("498x280")
@@ -36,7 +36,7 @@ def mostrar_mensagem():
     canvas.pack(fill=tk.BOTH, expand=True)
 
     # Caminho do GIF
-    caminho_gif = os.path.join(pasta_sprites, 'pacman_background.gif')
+    caminho_gif = os.path.join(pasta_sprites, gif_nome)
 
     # Carrega e exibe o GIF animado
     try:
@@ -55,32 +55,55 @@ def mostrar_mensagem():
         pass
 
     # Cria um título
-    titulo = tk.Label(root, text="Colidiu com o fantasma!", font=('Helvetica', 14, 'bold'), fg='yellow', bg='black')
-    canvas.create_window(250, 60, window=titulo)
+    titulo_label = tk.Label(root, text=titulo, font=('Helvetica', 14, 'bold'), fg='yellow', bg='black')
+    canvas.create_window(250, 60, window=titulo_label)
 
     # Cria uma mensagem
-    mensagem = tk.Label(root, text="Deseja reiniciar o jogo?", font=('Helvetica', 12), fg='white', bg='black')
-    canvas.create_window(250, 120, window=mensagem)
+    mensagem_label = tk.Label(root, text=mensagem, font=('Helvetica', 12), fg='white', bg='black')
+    canvas.create_window(250, 120, window=mensagem_label)
 
     # Cria os botões de resposta
     resposta = tk.StringVar()
-    def reiniciar():
-        resposta.set("yes")
+    def botao1():
+        resposta.set("botao1")
         root.destroy()
     
-    def sair():
-        resposta.set("no")
+    def botao2():
+        resposta.set("botao2")
         root.destroy()
 
-    botao_reiniciar = tk.Button(root, text="Reiniciar", command=reiniciar, bg='yellow', fg='black')
-    canvas.create_window(175, 220, window=botao_reiniciar)
+    botao1_widget = tk.Button(root, text=botao1_texto, command=botao1, bg='yellow', fg='black')
+    canvas.create_window(175, 220, window=botao1_widget)
 
-    botao_sair = tk.Button(root, text="Sair", command=sair, bg='red', fg='white')
-    canvas.create_window(325, 220, window=botao_sair)
+    botao2_widget = tk.Button(root, text=botao2_texto, command=botao2, bg='red', fg='white')
+    canvas.create_window(325, 220, window=botao2_widget)
 
     root.mainloop()
     
-    return resposta.get() == "yes"
+    return resposta.get()
+
+def mostrar_tela_inicio():
+    resultado = mostrar_popup(
+        titulo="Bem-vindo ao Pac-Man",
+        mensagem="Deseja jogar?",
+        gif_nome='tela_popup_inicio.gif',
+        botao1_texto="Jogar",
+        botao2_texto="Sair"
+    )
+    if resultado == "botao1":
+        jogo()
+    else:
+        pygame.quit()
+        sys.exit()
+
+def mostrar_mensagem():
+    return mostrar_popup(
+        titulo="Game Over",
+        mensagem="Você perdeu! Deseja jogar novamente?",
+        gif_nome='tela_popup_fim.gif',
+        botao1_texto="Sim",
+        botao2_texto="Não"
+    ) == "botao1"
 
 def jogo():
     # Configurações da tela
@@ -125,11 +148,13 @@ def jogo():
         [1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1], 
         [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],  
         [1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1], 
-        [1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1],
-        [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1], 
-        [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1], 
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
+        [1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1],
+        [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+        [1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     ]
 
     # Posição inicial do Pac-Man e direção inicial
@@ -145,7 +170,7 @@ def jogo():
 
     # Configura o tempo para a movimentação
     clock = pygame.time.Clock()
-    tickrate_ms = 650  # Atualiza a cada 500 milissegundos
+    tickrate_ms = 500  # Atualiza a cada 500 milissegundos
     ultima_movimentacao = pygame.time.get_ticks()  # Tempo da última movimentação
 
     def desenha_labirinto():
@@ -197,7 +222,7 @@ def jogo():
                 if event.key in [pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN]:
                     pacman_direcao = event.key
 
-        # Atualiza a posição do Pac-Man a cada 650 milissegundos
+        # Atualiza a posição do Pac-Man a cada 500 milissegundos
         tempo_atual = pygame.time.get_ticks()
         if tempo_atual - ultima_movimentacao >= tickrate_ms:
             atualiza_posicao()
@@ -214,6 +239,6 @@ def jogo():
         pygame.display.update()
         clock.tick(60)  # Define o frame rate para 60 FPS
 
-jogo()
+mostrar_tela_inicio()
 
 
